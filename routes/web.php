@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Route;
+use Vanguard\Http\Controllers\FileController;
 
 /**
  * Authentication
@@ -190,5 +191,11 @@ Route::group(['prefix' => 'install'], function () {
     Route::post('install-app', 'InstallController@install')->name('install.install');
     Route::get('complete', 'InstallController@complete')->name('install.complete');
     Route::get('error', 'InstallController@error')->name('install.error');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/files/upload', [FileController::class, 'showUploadForm'])->name('files.upload');
+    Route::post('/files/upload', [FileController::class, 'upload'])->name('files.upload.post');
+    Route::get('/files/history', [FileController::class, 'history'])->name('files.history');
 });
 
