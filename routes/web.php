@@ -191,12 +191,4 @@ Route::group(['prefix' => 'install'], function () {
     Route::get('complete', 'InstallController@complete')->name('install.complete');
     Route::get('error', 'InstallController@error')->name('install.error');
 });
-Route::get('/test-wasabi', function () {
-    $path = Storage::disk('wasabi')->put('uploads/test.txt', 'Hello Wasabi!');
 
-    $bucket = env('AWS_BUCKET');
-    $endpoint = env('AWS_ENDPOINT');
-    $url = $endpoint . '/' . $bucket . '/' . $path;
-
-    return $url;
-});
