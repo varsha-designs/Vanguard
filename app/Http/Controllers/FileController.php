@@ -5,6 +5,7 @@ namespace Vanguard\Http\Controllers;
 use Illuminate\Http\Request;
 use Vanguard\File;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 
 class FileController extends Controller
@@ -19,7 +20,8 @@ class FileController extends Controller
         ]);
 
         $uploadedFile = $request->file('file');
-        $path = $uploadedFile->store('uploads');
+        $path = $request->file('file')->store('uploads', 'wasabi');
+         Storage::disk('wasabi')->setVisibility($path, 'public');
 
         File::create([
             'file_name' => $uploadedFile->getClientOriginalName(),
