@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Route;
 use Vanguard\Http\Controllers\FileController;
+use Vanguard\http\controllers\StudentController;
 
 /**
  * Authentication
@@ -198,4 +199,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/files/upload', [FileController::class, 'upload'])->name('files.upload.post');
     Route::get('/files/history', [FileController::class, 'history'])->name('files.history');
 });
+
+
+
+Route::get('/students', [StudentController::class, 'index'])->name('students.index'); // list students
+Route::get('/students/create', [StudentController::class, 'create'])->name('students.create'); // show form
+Route::post('/students', [StudentController::class, 'store'])->name('students.store'); // save form
 
