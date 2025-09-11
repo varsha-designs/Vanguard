@@ -9,7 +9,7 @@
     <ul class="divide-y divide-gray-200">
         @forelse($files as $file)
             <li class="py-3 flex justify-between items-center hover:bg-gray-50 px-3 rounded transition">
-                <span class="text-gray-700 font-medium">{{ $file->file_name }}</span>
+               <a href="{{ Storage::disk('wasabi')->url($file->file_path) }}"class="text-black-600 font-medium ">{{ $file->file_name }}</a>
                 <span class="text-gray-500 text-sm">{{ $file->created_at->format('d M Y H:i') }}</span>
             </li>
         @empty
