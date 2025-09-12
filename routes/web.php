@@ -205,4 +205,12 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/students', [StudentController::class, 'index'])->name('students.index'); // list students
 Route::get('/students/create', [StudentController::class, 'create'])->name('students.create'); // show form
 Route::post('/students', [StudentController::class, 'store'])->name('students.store'); // save form
+// GET /students/{student}/edit
+Route::get('/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
+
+// PUT /students/{student}
+Route::put('/students/{student}', [StudentController::class, 'update'])->name('students.update');
+
+Route::delete('/student/documents/{id}', [StudentController::class, 'destroyDocument'])->name('student.documents.destroy');
+
 
