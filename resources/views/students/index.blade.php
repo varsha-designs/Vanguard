@@ -21,7 +21,10 @@
                     <tr>
                         <td>{{ $student->id }}</td>
                         <td>{{ $student->full_name }}</td>
-                        <td>{{ $student->email }}</td>
+                        <td >{{ $student->email }}<a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-primary ms-3 ml-4">
+                    Edit
+                </a>
+            </td>
                     </tr>
                 @empty
                     <tr>
