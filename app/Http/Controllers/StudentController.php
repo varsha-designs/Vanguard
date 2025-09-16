@@ -20,8 +20,13 @@ class StudentController extends Controller
     // 2. Show create form
     public function create()
     {
-        return view('students.create');
-    }
+     $student = (Student::max('id') ?? 0) + 1;
+
+    // Pass it as $student to the view
+    return view('students.create', compact('student'));
+
+}
+
 
     // 3. Store new student
     public function store(Request $request)
@@ -42,8 +47,10 @@ class StudentController extends Controller
         'experience' => 'required|string',
         'upload_file.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf', // multiple files
         'file_name.*' => 'nullable|string', // only save file names
+
     ]);
 
+     $studentId = 'STU' . str_pad(Student::max('id') + 1, 3, '0', STR_PAD_LEFT);
     // 2️⃣ Create student record
     $student = Student::create([
         'full_name' => $request->full_name,
@@ -58,6 +65,7 @@ class StudentController extends Controller
         'company' => $request->company,
         'role' => $request->role,
         'experience' => $request->experience,
+        'studentid'       => $studentId,
     ]);
 
         return redirect()->route('students.index')->with('success', 'Student created successfully!');
@@ -76,6 +84,7 @@ public function update(Request $request, Student $student)
         'gender', 'address', 'college', 'degree',
         'year_of_passing', 'company', 'role', 'experience'
     ]));
+
 
     // Save new documents if uploaded
 
