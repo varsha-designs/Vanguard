@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Route;
 use Vanguard\Http\Controllers\FileController;
 use Vanguard\http\controllers\StudentController;
+use Vanguard\Http\Controllers\DocumentController;
+use Vanguard\Http\Controllers\CourseController;
+use Vanguard\Http\Controllers\FacultyController;
+use Vanguard\Http\Controllers\DailyActivityController;
 
 /**
  * Authentication
@@ -201,7 +205,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-
+Route::middleware(['auth'])->group(function () {
 Route::get('/students', [StudentController::class, 'index'])->name('students.index'); // list students
 Route::get('/students/create', [StudentController::class, 'create'])->name('students.create'); // show form
 Route::post('/students', [StudentController::class, 'store'])->name('students.store'); // save form
@@ -214,3 +218,53 @@ Route::put('/students/{student}', [StudentController::class, 'update'])->name('s
 Route::delete('/student/documents/{id}', [StudentController::class, 'destroyDocument'])->name('student.documents.destroy');
 
 
+Route::get('/students/{student}/documents', [DocumentController::class, 'index'])
+    ->name('students.documents');
+
+Route::delete('students/documents/{id}', [DocumentController::class, 'destroy'])
+    ->name('students.documents.destroy');
+Route::post('/students/{student}/documents', [DocumentController::class, 'store'])
+->name('students.documents.store');
+
+
+
+
+// List all courses
+Route::get('courses', [CourseController::class, 'index'])->name('courses.index');
+
+// Show form to create a new course
+Route::get('courses/create', [CourseController::class, 'create'])->name('courses.create');
+
+// Store new course
+Route::post('courses', [CourseController::class, 'store'])->name('courses.store');
+
+// Show form to edit an existing course
+Route::get('courses/{course}/edit', [CourseController::class, 'edit'])->name('courses.edit');
+
+// Update an existing course
+Route::put('courses/{course}', [CourseController::class, 'update'])->name('courses.update');
+
+// Delete a course
+Route::delete('courses/{course}', [CourseController::class, 'destroy'])->name('courses.destroy');
+
+Route::get('courses/{course}', [CourseController::class, 'show'])->name('courses.show');
+});
+
+
+
+Route::get('/faculties', [FacultyController::class, 'index'])->name('faculties.index');
+Route::get('/faculties/create', [FacultyController::class, 'create'])->name('faculties.create');
+Route::post('/faculties', [FacultyController::class, 'store'])->name('faculties.store');
+Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])->name('faculties.show');
+Route::get('/faculties/{faculty}/edit', [FacultyController::class, 'edit'])->name('faculties.edit');
+Route::put('/faculties/{faculty}', [FacultyController::class, 'update'])->name('faculties.update');
+Route::delete('/faculties/{faculty}', [FacultyController::class, 'destroy'])->name('faculties.destroy');
+
+
+Route::get('/daily-activities', [DailyActivityController::class, 'index'])->name('daily_activities.index');
+Route::get('/daily-activities/create', [DailyActivityController::class, 'create'])->name('daily_activities.create');
+Route::post('/daily-activities', [DailyActivityController::class, 'store'])->name('daily_activities.store');
+Route::get('/daily-activities/{activity}', [DailyActivityController::class, 'show'])->name('daily_activities.show');
+Route::get('/daily-activities/{activity}/edit', [DailyActivityController::class,'edit'])->name('daily_activities.edit');
+Route::put('/daily-activities/{activity}', [DailyActivityController::class, 'update'])->name('daily_activities.update');
+Route::delete('/daily-activities/{activity}', [DailyActivityController::class, 'destroy'])->name('daily_activities.destroy');
