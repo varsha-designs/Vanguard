@@ -3,7 +3,7 @@
 namespace Vanguard\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Route;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Vanguard\Repositories\Role\RoleRepository;
 use Vanguard\Repositories\Session\SessionRepository;
@@ -111,4 +111,6 @@ class RouteServiceProvider extends ServiceProvider
             throw new NotFoundHttpException('Resource not found.');
         });
     }
+
+
 }
