@@ -24,6 +24,9 @@
                         <td >{{ $student->email }}<a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-primary ms-3 ml-4">
                     Edit
                 </a>
+                <a href="{{ route('students.documents', $student->id) }}" class="btn btn-sm btn-primary ms-3 ml-4">
+                    Document
+                </a>
             </td>
                     </tr>
                 @empty
