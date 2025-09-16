@@ -22,11 +22,13 @@ class Student extends Model
         'company',
         'role',
         'experience',
+        'studentid',
     ];
     public function documents()
 {
     return $this->hasMany(Document::class);
 
 }
+
 
 }
