@@ -13,6 +13,10 @@
             <div class="card-header">Personal Details</div>
             <div class="card-body">
                 <div class="row g-3">
+                 <div class="col-md-6">
+                <label class="form-label">Student ID</label>
+                <input type="text" class="form-control" value="{{ old('studentid', 'STU' . str_pad($student, 3, '0', STR_PAD_LEFT)) }}" readonly>
+                </div>
                     <div class="col-md-6">
                         <label class="form-label">Full Name</label>
                         <input type="text" name="full_name" class="form-control" required>
@@ -93,6 +97,6 @@
     </form>
 </div>
 
-<!-- 🔹 Modal for Adding File -->
+
 
 @endsection
