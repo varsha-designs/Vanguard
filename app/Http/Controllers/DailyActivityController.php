@@ -6,16 +6,17 @@ use Illuminate\Http\Request;
 use Vanguard\DailyActivity;
 use Vanguard\Student;
 use Vanguard\Faculty;
-use  Carbon\carbon;
+use Vanguard\ActivityImage;
+use Illuminate\Support\Facades\Storage;
+
 
 class DailyActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-     public function index()
+    public function index()
     {
-        // Get all activities with student & faculty details
         $activities = DailyActivity::with(['student', 'faculty'])->latest()->get();
         return view('daily_activities.index', compact('activities'));
     }
@@ -25,7 +26,6 @@ class DailyActivityController extends Controller
      */
     public function create()
     {
-        // Fetch students & faculties for dropdown
         $students = Student::all();
         $faculties = Faculty::all();
 
@@ -45,16 +45,25 @@ class DailyActivityController extends Controller
             'out_time'     => 'required|after:in_time',
             'activities'   => 'required|array|min:1',
             'activities.*' => 'required|string',
+            'images.*'     => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048',
         ]);
 
-        DailyActivity::create([
+        $activity = DailyActivity::create([
             'student_id' => $request->student_id,
             'faculty_id' => $request->faculty_id,
-             'date'      => $request->date ?? now()->toDateString(),
+            'date'       => $request->date ?? now()->toDateString(),
             'in_time'    => $request->in_time,
             'out_time'   => $request->out_time,
-            'activities' => json_encode($request->activities), // store as JSON
+            'activities' => json_encode($request->activities),
         ]);
+
+        // Store new images
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+              $path = $image->store('access_test', 'wasabi', ['visibility' => 'private']);
+                $activity->images()->create(['image_path' => $path]);
+            }
+        }
 
         return redirect()->route('daily_activities.index')->with('success', 'Daily Activity created successfully.');
     }
@@ -62,20 +71,32 @@ class DailyActivityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DailyActivity $dailyActivity, $id)
-    {
-        $dailyActivity = DailyActivity::with(['student','faculty'])->findOrFail($id);
-        return view('daily_activities.show', compact('dailyActivity'));
-    }
+    public function show($id)
+{
+    $dailyActivity = DailyActivity::with('images')->findOrFail($id);
+
+    /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+    $disk = Storage::disk('wasabi');
+     foreach ($dailyActivity->images as $img) {
+            // Generate a temporary signed URL valid for 10 minutes
+            $img->signed_url = Storage::disk('wasabi')->exists($img->image_path)
+                ? $disk->temporaryUrl($img->image_path, now()->addMinutes(1))
+                : null;
+        }
+
+
+    return view('daily_activities.show', compact('dailyActivity'));
+}
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DailyActivity $dailyActivity , $id)
+    public function edit($id)
     {
         $students = Student::all();
         $faculties = Faculty::all();
-          $dailyActivity = DailyActivity::findOrFail($id);
+        $dailyActivity = DailyActivity::with('images')->findOrFail($id);
 
         return view('daily_activities.edit', compact('dailyActivity', 'students', 'faculties'));
     }
@@ -83,9 +104,9 @@ class DailyActivityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DailyActivity $dailyActivity, $id)
+    public function update(Request $request, $id)
     {
-         $dailyActivity = DailyActivity::findOrFail($id);
+        $dailyActivity = DailyActivity::findOrFail($id);
 
         $request->validate([
             'student_id'   => 'required|exists:students,id',
@@ -97,16 +118,34 @@ class DailyActivityController extends Controller
             'activities.*' => 'required|string',
         ]);
 
-
+        // Update main fields
         $dailyActivity->update([
             'student_id' => $request->student_id,
             'faculty_id' => $request->faculty_id,
-             'date'       => $request->date ?? $dailyActivity->date ?? now()->toDateString(),
+            'date'       => $request->date ?? $dailyActivity->date ?? now()->toDateString(),
             'in_time'    => $request->in_time,
             'out_time'   => $request->out_time,
             'activities' => json_encode($request->activities),
         ]);
 
+        // Delete selected images
+        if ($request->has('delete_images')) {
+            foreach ($request->delete_images as $imgId) {
+                $img = ActivityImage::find($imgId);
+                if ($img) {
+                    Storage::disk('wasabi')->delete($img->image_path);
+                    $img->delete();
+                }
+            }
+        }
+
+        // Add new images
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('access_test', 'wasabi', ['visibility' => 'private']);
+                $dailyActivity->images()->create(['image_path' => $path]);
+            }
+        }
 
         return redirect()->route('daily_activities.index')->with('success', 'Daily Activity updated successfully.');
     }
@@ -114,10 +153,17 @@ class DailyActivityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DailyActivity $dailyActivity)
+    public function destroy($id)
     {
+        $dailyActivity = DailyActivity::with('images')->findOrFail($id);
+
+        foreach ($dailyActivity->images as $image) {
+            Storage::disk('wasabi')->delete($image->image_path);
+            $image->delete();
+        }
+
         $dailyActivity->delete();
+
         return redirect()->route('daily_activities.index')->with('success', 'Daily Activity deleted successfully.');
     }
-
 }
