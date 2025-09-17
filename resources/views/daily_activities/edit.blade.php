@@ -14,7 +14,7 @@
         </div>
     @endif
 
-    <form action="{{ route('daily_activities.update', $dailyActivity->id) }}" method="POST">
+    <form action="{{ route('daily_activities.update', $dailyActivity->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -79,6 +79,39 @@
             </div>
         </div>
 
+        <!-- 3. Existing Images -->
+        @if($dailyActivity->images->count())
+        <div class="card mb-4">
+            <div class="card-header">Existing Images</div>
+            <div class="card-body flex gap-3 flex-wrap">
+                @foreach($dailyActivity->images as $image)
+                    <div class="relative">
+                        <label class="absolute top-0 right-0 bg-red-500 text-white p-1 cursor-pointer rounded">
+                            <input type="checkbox" name="delete_images[]" value="{{ $image->id }}"> X
+                        </label>
+                        <img src="{{ Storage::disk('wasabi')->temporaryUrl($image->image_path, now()->addMinutes(10)) }}"
+     class="w-32 h-32 object-cover rounded border"
+     alt="Activity Image">
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+        <!-- 4. Add New Images -->
+        <div class="card mb-4">
+            <div class="card-header">Add New Images</div>
+            <div class="card-body">
+                <div id="images-wrapper" class="space-y-3">
+                    <div class="input-group mb-2">
+                        <input type="file" name="images[]" class="form-control">
+                        <button type="button" onclick="this.parentNode.remove()" class="btn btn-danger">X</button>
+                    </div>
+                </div>
+                <button type="button" onclick="addImageInput()" class="btn btn-success mt-2">+ Add More</button>
+            </div>
+        </div>
+
         <div class="mb-5">
             <button type="submit" class="btn btn-primary">Update Activity</button>
             <a href="{{ route('daily_activities.index') }}" class="btn btn-secondary">Cancel</a>
@@ -93,6 +126,17 @@ function addActivity() {
     div.classList.add('input-group','mb-2');
     div.innerHTML = `
         <input type="text" name="activities[]" class="form-control" required>
+        <button type="button" onclick="this.parentNode.remove()" class="btn btn-danger">X</button>
+    `;
+    wrapper.appendChild(div);
+}
+
+function addImageInput() {
+    let wrapper = document.getElementById('images-wrapper');
+    let div = document.createElement('div');
+    div.classList.add('input-group', 'mb-2');
+    div.innerHTML = `
+        <input type="file" name="images[]" class="form-control">
         <button type="button" onclick="this.parentNode.remove()" class="btn btn-danger">X</button>
     `;
     wrapper.appendChild(div);
