@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id')->onDelete('casade');
             $table->unsignedBigInteger('faculty_id')->onDelete('casade');
-            $table->timestamp('date')->useCurrent();
+           $table->date('date'); // no default
             $table->time('in_time');
             $table->time('out_time');
             $table->decimal('hours_spent', 5, 2)->nullable();
