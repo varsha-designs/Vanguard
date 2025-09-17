@@ -5,6 +5,8 @@ namespace Vanguard;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\carbon;
+use Vanguard\Student;
+use Vanguard\Faculty;
 
 class DailyActivity extends Model
 {
@@ -17,6 +19,7 @@ class DailyActivity extends Model
         'out_time',
         'activities',
         'hours_spent',
+        'images',
     ];
     protected $casts = [
         'activities' => 'array', // auto convert JSON <-> array
@@ -50,4 +53,9 @@ class DailyActivity extends Model
     {
         $this->attributes['activities'] = json_encode($value);
     }
+
+    public function images() {
+    return $this->hasMany(ActivityImage::class, 'activity_id');
+}
+
 }
