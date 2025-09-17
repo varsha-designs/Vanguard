@@ -21,7 +21,7 @@ class FileController extends Controller
 
         $uploadedFile = $request->file('file');
         $path = $request->file('file')->store('uploads', 'wasabi');
-         Storage::disk('wasabi')->setVisibility($path, 'public');
+         Storage::disk('wasabi')->setVisibility($path, 'private');
 
         File::create([
             'file_name' => $uploadedFile->getClientOriginalName(),
