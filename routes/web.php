@@ -260,7 +260,7 @@ Route::get('/faculties/{faculty}/edit', [FacultyController::class, 'edit'])->nam
 Route::put('/faculties/{faculty}', [FacultyController::class, 'update'])->name('faculties.update');
 Route::delete('/faculties/{faculty}', [FacultyController::class, 'destroy'])->name('faculties.destroy');
 
-
+Route::middleware('auth')->group(function() {
 Route::get('/daily-activities', [DailyActivityController::class, 'index'])->name('daily_activities.index');
 Route::get('/daily-activities/create', [DailyActivityController::class, 'create'])->name('daily_activities.create');
 Route::post('/daily-activities', [DailyActivityController::class, 'store'])->name('daily_activities.store');
@@ -268,3 +268,4 @@ Route::get('/daily-activities/{activity}', [DailyActivityController::class, 'sho
 Route::get('/daily-activities/{activity}/edit', [DailyActivityController::class,'edit'])->name('daily_activities.edit');
 Route::put('/daily-activities/{activity}', [DailyActivityController::class, 'update'])->name('daily_activities.update');
 Route::delete('/daily-activities/{activity}', [DailyActivityController::class, 'destroy'])->name('daily_activities.destroy');
+});
