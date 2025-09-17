@@ -18,8 +18,21 @@
                     <li>- {{ $act }}</li>
                 @endforeach
             </ul>
-        </li>
-    </ul>
+
+
+    <li class="list-group-item">
+        <strong>Existing Images:</strong>
+        <div class="flex gap-3 mt-2 flex-wrap">
+            @forelse($dailyActivity->images as $image)
+                <img src="{{ $image->signed_url }}"
+                     class="w-32 h-32 object-cover rounded border"
+                     alt="Activity Image">
+            @empty
+                <p class="text-gray-500">No images uploaded.</p>
+            @endforelse
+        </div>
+    </li>
+</ul>
 
     <div class="mt-3">
         <a href="{{ route('daily_activities.index') }}" class="btn btn-secondary">Back</a>
