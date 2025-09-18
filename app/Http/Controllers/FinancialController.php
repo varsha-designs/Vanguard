@@ -28,8 +28,8 @@ class FinancialController extends Controller
 
         $totalCosts = $totalTeacherCost + $totalMarketing + $platformCost;
 
-        // Profit
-        $profit = $totalRevenue - $totalCosts;
+
+
 
         // Pass all data to the view
         return view('financial.index', compact(
@@ -37,7 +37,6 @@ class FinancialController extends Controller
             'totalEnrollments',
             'totalRevenue',
             'totalCosts',
-            'profit'
         ));
     }
 }
