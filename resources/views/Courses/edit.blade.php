@@ -52,6 +52,13 @@
             <textarea name="projects" class="form-control">{{ old('projects', $course->project ?? '') }}</textarea>
         </div>
 
+
+                <div class="mb-3">
+            <label for="fee" class="form-label">Course Fee (₹)</label>
+            <input type="number" name="course_fee" id="course_fee" class="form-control"
+                value="{{ old('course_fee', $course->course_fee ?? '') }}" required>
+        </div>
+
         <button type="submit" class="btn btn-success">Update Course</button>
         <a href="{{ route('courses.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
