@@ -15,6 +15,10 @@
             <p>{{ $course->project ?? 'N/A' }}</p>
             <p><strong>Course Fee:</strong></p>
             <p>{{ $course->course_fee ?? 'N/A' }}</p>
+           <p><strong>Start Date:</strong> {{ $course->start_date }}</p>
+           <p><strong>End Date:</strong> {{ $course->end_date }}</p>
+
+
         </div>
     </div>
 
