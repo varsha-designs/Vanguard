@@ -28,6 +28,8 @@ class CourseController extends Controller
             'concepts'    => 'required|string',
             'project'     => 'required|string',
             'course_fee' => 'required|numeric|min:4',
+            'start_date'      => 'required',
+            'end_date'     => 'required|after:start_date',
         ]);
 
        Course::create([
@@ -38,6 +40,8 @@ class CourseController extends Controller
     'concepts'    => $request->concepts,
     'project'     => $request->project,
     'course_fee'  => $request->course_fee,
+    'start_date'  => $request->start_date,
+    'end_date'    => $request->end_date,
 ]);
 
         return redirect()->route('courses.index')
@@ -65,6 +69,9 @@ class CourseController extends Controller
             'concepts'    => 'nullable|string',
             'project'     => 'nullable|string',
             'course_fee' => 'required|numeric|min:5',
+             'start_date'      => 'nullable',
+            'end_date'     => 'nullable|after:start_date',
+
         ]);
 
       $course->update([
@@ -75,6 +82,8 @@ class CourseController extends Controller
     'concepts'    => $request->concepts,
     'project'     => $request->project,
     'course_fee'  => $request->course_fee,
+     'start_date'  => $request->start_date,
+    'end_date'    => $request->end_date,
 ]);
 
         return redirect()->route('courses.index')
