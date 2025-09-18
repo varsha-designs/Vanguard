@@ -8,7 +8,7 @@ use Vanguard\Http\Controllers\DocumentController;
 use Vanguard\Http\Controllers\CourseController;
 use Vanguard\Http\Controllers\FacultyController;
 use Vanguard\Http\Controllers\DailyActivityController;
-
+use Vanguard\Http\Controllers\FinancialController;
 /**
  * Authentication
  */
@@ -269,3 +269,6 @@ Route::get('/daily-activities/{activity}/edit', [DailyActivityController::class,
 Route::put('/daily-activities/{activity}', [DailyActivityController::class, 'update'])->name('daily_activities.update');
 Route::delete('/daily-activities/{activity}', [DailyActivityController::class, 'destroy'])->name('daily_activities.destroy');
 });
+Route::get('/financial-model', [FinancialController::class, 'index'])
+     ->name('financial.index');
+
