@@ -5,6 +5,7 @@ namespace Vanguard;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Vanguard\Document;
+use Vanguard\Course;
 
 class Student extends Model
 {
@@ -25,10 +26,15 @@ class Student extends Model
         'studentid',
     ];
     public function documents()
-{
+   {
     return $this->hasMany(Document::class);
 
+   }
+   public function courses()
+{
+    return $this->belongsToMany(Course::class, 'enrollments', 'student_id', 'course_id');
 }
+
 
 
 }
