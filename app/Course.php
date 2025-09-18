@@ -5,6 +5,7 @@ namespace Vanguard;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Course extends Model
 {
     use HasFactory;
@@ -14,6 +15,13 @@ class Course extends Model
         'level',
         'section',
         'concepts',
-        'project'
+        'project',
+        'course_fee',
     ];
+
+    public function students()
+{
+    return $this->belongsToMany(Student::class, 'enrollments', 'student_id', 'course_id');
+}
+
 }
