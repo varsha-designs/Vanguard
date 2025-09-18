@@ -13,6 +13,8 @@
             <p>{{ $course->concepts ?? 'N/A' }}</p>
             <p><strong>Projects:</strong></p>
             <p>{{ $course->project ?? 'N/A' }}</p>
+            <p><strong>Course Fee:</strong></p>
+            <p>{{ $course->course_fee ?? 'N/A' }}</p>
         </div>
     </div>
 
