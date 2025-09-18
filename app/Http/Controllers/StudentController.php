@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Vanguard\Student;
 use Illuminate\Support\Facades\Storage;
 use Vanguard\Document;
+use Vanguard\Course;
 
 
 
@@ -20,10 +21,11 @@ class StudentController extends Controller
     // 2. Show create form
     public function create()
     {
+         $courses = Course::all();
      $student = (Student::max('id') ?? 0) + 1;
 
     // Pass it as $student to the view
-    return view('students.create', compact('student'));
+    return view('students.create', compact('student','courses'));
 
 }
 
@@ -47,6 +49,7 @@ class StudentController extends Controller
         'experience' => 'required|string',
         'upload_file.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf', // multiple files
         'file_name.*' => 'nullable|string', // only save file names
+        'courses' => 'required|array',
 
     ]);
 
@@ -67,13 +70,14 @@ class StudentController extends Controller
         'experience' => $request->experience,
         'studentid'       => $studentId,
     ]);
-
+   $student->courses()->attach($request->courses);
         return redirect()->route('students.index')->with('success', 'Student created successfully!');
     }
    // Show edit form
 public function edit(Student $student)
 {
-    return view('students.edit', compact('student'));
+     $courses = Course::all();
+    return view('students.edit', compact('student','courses'));
 }
 
 // Handle update
@@ -82,8 +86,9 @@ public function update(Request $request, Student $student)
     $student->update($request->only([
         'full_name', 'email', 'whatsapp_number', 'dob',
         'gender', 'address', 'college', 'degree',
-        'year_of_passing', 'company', 'role', 'experience'
+        'year_of_passing', 'company', 'role', 'experience',
     ]));
+     $student->courses()->sync($request->courses);
 
 
     // Save new documents if uploaded
