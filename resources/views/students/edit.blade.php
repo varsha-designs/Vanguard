@@ -78,8 +78,8 @@
         </div>
 
         <!-- 3. Professional Details -->
-        <div class="card mb-4">
-            <div class="card-header">Professional Details</div>
+    <div class="card mb-4">
+         <div class="card-header">Professional Details</div>
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-md-6">
@@ -96,9 +96,39 @@
                     </div>
                 </div>
             </div>
+         </div>
+
+
+                    <!-- 4. Course Selection -->
+    <div class="card mb-4">
+    <div class="card-header">Course Selection</div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Select Course(s)</label>
+                <select name="courses[]" class="form-control" multiple required>
+                    @foreach($courses as $course)
+                        <option value="{{ $course->id }}"
+                            {{ in_array($course->id, old('courses', $student->courses->pluck('id')->toArray())) ? 'selected' : '' }}>
+                            {{ $course->course_code }} - {{ $course->course_name }}
+                        </option>
+                    @endforeach
+                </select>
+                <small class="text-muted">Hold CTRL (Windows) or CMD (Mac) to select multiple courses.</small>
+
+                </div>
+            </div>
         </div>
+        <div class="col-md-6">
+                <label class="form-label">Already Enrolled Courses</label>
+                <input type="text" class="form-control"
+                       value="{{ $student->courses->pluck('course_name')->implode(', ') }}"
+                       readonly>
+                <small class="text-muted">This shows the courses the student is currently enrolled in.</small>
+            </div>
+    </div>
             <div class="mb-5">
-        <button type="submit" class="btn btn-primary">Update Student</button>
+        <button type="submit" class="btn btn-primary ml-2">Update Student</button>
         <a href="{{ route('students.index') }}" class="btn btn-secondary">Cancel</a>
     </div>
     </form>
