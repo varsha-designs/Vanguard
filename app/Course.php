@@ -17,6 +17,8 @@ class Course extends Model
         'concepts',
         'project',
         'course_fee',
+        'start_date',
+    'end_date',
     ];
 
     public function students()
