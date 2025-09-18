@@ -91,6 +91,23 @@
                 </div>
             </div>
         </div>
+        <div class="card mb-4">
+    <div class="card-header">Course Selection</div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-12">
+                <label class="form-label">Select Courses</label>
+                <select name="courses[]" class="form-control" multiple required>
+                    @foreach($courses as $course)
+                         <option value="{{ $course->id }}">{{ $course->course_code }} - {{ $course->course_name }}</option>
+                    @endforeach
+                </select>
+                <small class="text-muted">Hold CTRL (Windows) or Command (Mac) to select multiple courses.</small>
+            </div>
+        </div>
+    </div>
+</div>
+
 
         <!-- 🔹 Submit -->
         <button type="submit" class="btn btn-primary">Save Student</button>
