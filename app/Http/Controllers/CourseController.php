@@ -27,9 +27,18 @@ class CourseController extends Controller
             'section'     => 'required|string',
             'concepts'    => 'required|string',
             'project'     => 'required|string',
+            'course_fee' => 'required|numeric|min:4',
         ]);
 
-        Course::create($request->all());
+       Course::create([
+    'course_name' => $request->course_name,
+    'course_code' => $request->course_code,
+    'level'       => $request->level,
+    'section'     => $request->section,
+    'concepts'    => $request->concepts,
+    'project'     => $request->project,
+    'course_fee'  => $request->course_fee,
+]);
 
         return redirect()->route('courses.index')
                          ->with('success', 'Course created successfully.');
@@ -55,9 +64,18 @@ class CourseController extends Controller
             'section'     => 'nullable|string',
             'concepts'    => 'nullable|string',
             'project'     => 'nullable|string',
+            'course_fee' => 'required|numeric|min:5',
         ]);
 
-        $course->update($request->all());
+      $course->update([
+    'course_name' => $request->course_name,
+    'course_code' => $request->course_code,
+    'level'       => $request->level,
+    'section'     => $request->section,
+    'concepts'    => $request->concepts,
+    'project'     => $request->project,
+    'course_fee'  => $request->course_fee,
+]);
 
         return redirect()->route('courses.index')
                          ->with('success', 'Course updated successfully.');
