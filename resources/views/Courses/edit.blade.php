@@ -48,8 +48,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="projects" class="form-label">Projects</label>
-            <textarea name="projects" class="form-control">{{ old('projects', $course->project ?? '') }}</textarea>
+            <label for="project" class="form-label">Projects</label>
+            <textarea name="project" class="form-control">{{ old('project', $course->project) }}</textarea>
         </div>
 
 
@@ -58,6 +58,17 @@
             <input type="number" name="course_fee" id="course_fee" class="form-control"
                 value="{{ old('course_fee', $course->course_fee ?? '') }}" required>
         </div>
+               <div class="mb-3">
+    <label for="start_date" class="form-label">Start Date</label>
+    <input type="date" name="start_date" id="start_date" class="form-control" value="{{ old('start_date', $course->start_date) }}" required>
+</div>
+
+<div class="mb-3">
+    <label for="end_date" class="form-label">End Date</label>
+    <input type="date" name="end_date" id="end_date" class="form-control" value="{{ old('end_date', $course->end_date) }}" required>
+</div>
+
+
 
         <button type="submit" class="btn btn-success">Update Course</button>
         <a href="{{ route('courses.index') }}" class="btn btn-secondary">Cancel</a>
