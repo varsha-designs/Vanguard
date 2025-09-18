@@ -9,7 +9,7 @@
     <p><strong>Total Course Enrollments:</strong> {{ $totalEnrollments }}</p>
     <p><strong>Total Revenue:</strong> ₹{{ number_format($totalRevenue, 2) }}</p>
     <p><strong>Total Costs:</strong> ₹{{ number_format($totalCosts, 2) }}</p>
-    <p><strong>Profit:</strong> ₹{{ number_format($profit, 2) }}</p>
+
 
     <hr>
     <h4>Student-wise Enrollment & Fees</h4>
