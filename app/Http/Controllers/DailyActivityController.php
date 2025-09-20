@@ -42,7 +42,8 @@ class DailyActivityController extends Controller
             'faculty_id'   => 'required|exists:faculties,id',
             'date'         => 'required|date',
             'in_time'      => 'required',
-            'out_time'     => 'required|after:in_time',
+           'out_time' => 'required|only after:'.$request->in_time,
+           'out_time.after' => 'Out time must be later than In time.',
             'activities'   => 'required|array|min:1',
             'activities.*' => 'required|string',
             'images.*'     => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048',
@@ -55,6 +56,7 @@ class DailyActivityController extends Controller
             'in_time'    => $request->in_time,
             'out_time'   => $request->out_time,
             'activities' => json_encode($request->activities),
+
         ]);
 
         // Store new images
@@ -73,7 +75,7 @@ class DailyActivityController extends Controller
      */
     public function show($id)
 {
-    $dailyActivity = DailyActivity::with('images')->findOrFail($id);
+    $dailyActivity = DailyActivity::with('images','student.courses')->findOrFail($id);
 
     /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
     $disk = Storage::disk('wasabi');
@@ -88,6 +90,12 @@ class DailyActivityController extends Controller
     return view('daily_activities.show', compact('dailyActivity'));
 }
 
+// AJAX route to fetch courses of a student
+public function getStudentCourses($studentId)
+{
+    $student = Student::with('courses')->findOrFail($studentId);
+    return response()->json($student->courses);
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -113,7 +121,8 @@ class DailyActivityController extends Controller
             'faculty_id'   => 'required|exists:faculties,id',
             'date'         => 'required|date',
             'in_time'      => 'required',
-            'out_time'     => 'required|after:in_time',
+           'out_time' => 'required|after:'.$request->in_time,
+           'out_time.after' => 'Out time must be later than In time.', // custom message
             'activities'   => 'required|array|min:1',
             'activities.*' => 'required|string',
         ]);
@@ -126,6 +135,7 @@ class DailyActivityController extends Controller
             'in_time'    => $request->in_time,
             'out_time'   => $request->out_time,
             'activities' => json_encode($request->activities),
+
         ]);
 
         // Delete selected images
