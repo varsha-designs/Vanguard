@@ -16,6 +16,12 @@
                 <span>{{ $dailyActivity->student->full_name ?? $dailyActivity->student_id ?? 'N/A' }}</span>
             </li>
 
+             <li class="px-6 py-4 flex justify-between">
+               <strong>Courses:</strong>
+                <span> {{ optional(optional($dailyActivity->student)->courses)->pluck('course_name')->join(', ') ?? 'N/A' }} </span>
+
+            </li>
+
             <li class="px-6 py-4 flex justify-between">
                 <strong>Faculty:</strong>
                 <span>{{ $dailyActivity->faculty->name ?? $dailyActivity->faculty_id ?? 'N/A' }}</span>
