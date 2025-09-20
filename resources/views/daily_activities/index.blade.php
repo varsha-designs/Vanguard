@@ -11,11 +11,6 @@
         </div>
     @endif
 
-    <a href="{{ route('daily_activities.create') }}"
-       class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md shadow-md mb-6 inline-block transition duration-200">
-       + Add Activity
-    </a>
-
     <div class="overflow-x-auto rounded-lg shadow border border-gray-200">
         <table class="w-full table-auto text-left border-collapse">
             <thead class="bg-gray-100 text-gray-700 uppercase text-sm font-medium">
@@ -34,7 +29,7 @@
                 @foreach($activities as $activity)
                     <tr class="hover:bg-gray-50 transition-colors duration-150">
                         <td class="p-3 border-b">{{ $activity->id }}</td>
-                        <td class="p-3 border-b">{{ $activity->student->full_name }}</td>
+                        <td class="p-3 border-b">{{ $activity->student ? $activity->student->full_name : 'N/A' }}</td>
                         <td class="p-3 border-b">{{ $activity->faculty->name }}</td>
                         <td class="p-3 border-b">{{ $activity->date }}</td>
                         <td class="p-3 border-b">{{ $activity->in_time }}</td>
