@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Vanguard\Document;
 use Vanguard\Course;
+ use Vanguard\DailyActivity;
+ use Vanguard\ActivityImage;
+
 
 class Student extends Model
 {
@@ -34,7 +37,15 @@ class Student extends Model
 {
     return $this->belongsToMany(Course::class, 'enrollments', 'student_id', 'course_id');
 }
+public function dailyactivities()
+{
+    return $this->belongsTo(DailyActivity::class);
+}
 
+public function activities()
+{
+    return $this->hasMany(DailyActivity::class, 'student_id');
+}
 
 
 }
