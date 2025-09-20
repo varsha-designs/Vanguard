@@ -9,14 +9,19 @@
 
         <!-- Student Dropdown -->
         <div class="mb-3">
-            <label class="form-label fw-bold">Student</label>
-            <select name="student_id" class="form-control" required>
-                <option value="">Select Student</option>
-                @foreach($students as $student)
-                    <option value="{{ $student->id }}">{{ $student->full_name }} ({{ $student->id }})</option>
-                @endforeach
-            </select>
-        </div>
+    <label class="form-label">Select Student</label>
+    <select name="student_id" id="studentSelect" class="form-control" required>
+        <option value="">-- Select Student --</option>
+        @foreach($students as $student)
+            <option value="{{ $student->id }}">{{ $student->full_name }}({{ $student->id }})</option>
+        @endforeach
+    </select>
+</div>
+
+        <div class="mb-3">
+    <label class="form-label">Course</label>
+    <input type="text" name="course_name" id="courseSelect" class="form-control" readonly>
+</div>
 
         <!-- Faculty Dropdown -->
         <div class="mb-3">
@@ -28,6 +33,32 @@
                 @endforeach
             </select>
         </div>
+        <!-- 🔹 Course (auto-filled) -->
+
+
+<!-- 🔹 JS to fetch courses dynamically -->
+<script>
+   document.getElementById('studentSelect').addEventListener('change', function() {
+    let studentId = this.value;
+    let courseSelect = document.getElementById('courseSelect'); // readonly input
+
+    if(studentId) {
+        fetch(`/students/${studentId}/courses`)
+            .then(res => res.json())
+            .then(data => {
+                if(data.length > 0){
+                    // Join multiple courses with comma
+                    courseSelect.value = data.map(course => course.course_code + " - " + course.course_name).join(', ');
+                } else {
+                    courseSelect.value = "No courses enrolled";
+                }
+            });
+    } else {
+        courseInput.courseSelect = ""; // clear input if no student selected
+    }
+});
+
+</script>
 
         <!-- Date -->
         <div class="mb-3">
