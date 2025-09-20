@@ -32,7 +32,14 @@ class FacultyController extends Controller
             'mother_name' => 'required|string|max:255',
         ]);
 
-        Faculty::create($request->all());
+       Faculty::create([
+    'faculty_id'   => $request->faculty_id,
+    'name'         => $request->name,
+    'email_id'     => $request->email_id,
+    'phone_number' => $request->phone_number,
+    'father_name'  => $request->father_name,
+    'mother_name'  => $request->mother_name,
+]);
 
         return redirect()->route('faculties.index')
                          ->with('success','Faculty created successfully.');
@@ -59,7 +66,14 @@ class FacultyController extends Controller
             'mother_name' => 'required|string|max:255',
         ]);
 
-        $faculty->update($request->all());
+      Faculty::update([
+    'faculty_id'   => $request->faculty_id,
+    'name'         => $request->name,
+    'email_id'     => $request->email_id,
+    'phone_number' => $request->phone_number,
+    'father_name'  => $request->father_name,
+    'mother_name'  => $request->mother_name,
+]);
 
         return redirect()->route('faculties.index')
                          ->with('success','Faculty updated successfully.');
