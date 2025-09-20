@@ -9,6 +9,7 @@ use Vanguard\Http\Controllers\CourseController;
 use Vanguard\Http\Controllers\FacultyController;
 use Vanguard\Http\Controllers\DailyActivityController;
 use Vanguard\Http\Controllers\FinancialController;
+use Vanguard\Http\Controllers\TabsController;
 /**
  * Authentication
  */
@@ -226,6 +227,7 @@ Route::delete('students/documents/{id}', [DocumentController::class, 'destroy'])
 Route::post('/students/{student}/documents', [DocumentController::class, 'store'])
 ->name('students.documents.store');
 
+Route::get('/students/{id}/courses', [DailyActivityController::class, 'getStudentCourses']);
 
 
 
@@ -271,4 +273,14 @@ Route::delete('/daily-activities/{activity}', [DailyActivityController::class, '
 });
 Route::get('/financial-model', [FinancialController::class, 'index'])
      ->name('financial.index');
+
+
+
+Route::prefix('tabs')->group(function () {
+    Route::get('/profile', [TabsController::class, 'profile'])->name('tabs.profile');
+    Route::get('/course-enrollment', [TabsController::class, 'courseEnrollment'])->name('tabs.courseEnrollment');
+    Route::get('/activities', [TabsController::class, 'activities'])->name('tabs.activities');
+    Route::get('/photos', [TabsController::class, 'photos'])->name('tabs.photos');
+});
+
 
