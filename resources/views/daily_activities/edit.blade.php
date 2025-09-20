@@ -43,6 +43,13 @@
                             @endforeach
                         </select>
                     </div>
+                     <div class="col-md-6">
+                         <label class="form-label">Course</label>
+                    <input type="text" name="course_name"
+       value="{{ optional(optional($dailyActivity->student)->courses)->pluck('course_name')->join(', ') ?? '' }}"
+       class="form-control" readonly>
+                     </div>
+
                     <div class="col-md-6">
                         <label class="form-label">Date</label>
                         <input type="date" name="date" value="{{ $dailyActivity->date }}" class="form-control" required>
