@@ -39,7 +39,7 @@ class Student extends Model
 }
 public function dailyactivities()
 {
-    return $this->belongsTo(DailyActivity::class);
+    return $this->hasMany(DailyActivity::class);
 }
 
 public function activities()
