@@ -58,4 +58,5 @@ class DailyActivity extends Model
     return $this->hasMany(ActivityImage::class, 'activity_id');
 }
 
+
 }
