@@ -13,6 +13,6 @@ class ActivityImage extends Model
      protected $fillable = ['activity_id', 'image_path'];
 
     public function activity() {
-        return $this->belongsTo(DailyActivity::class);
+        return $this->belongsTo(DailyActivity::class,'activity_id');
     }
 }
