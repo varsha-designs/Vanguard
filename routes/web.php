@@ -276,11 +276,15 @@ Route::get('/financial-model', [FinancialController::class, 'index'])
 
 
 
-Route::prefix('tabs')->group(function () {
+Route::prefix('tabs')->middleware(['auth'])->group(function () {
+
     Route::get('/profile', [TabsController::class, 'profile'])->name('tabs.profile');
     Route::get('/course-enrollment', [TabsController::class, 'courseEnrollment'])->name('tabs.courseEnrollment');
     Route::get('/activities', [TabsController::class, 'activities'])->name('tabs.activities');
     Route::get('/photos', [TabsController::class, 'photos'])->name('tabs.photos');
+Route::get('/students/{id}', [TabsController::class, 'showStudent'])->name('students.show');
+
+
 });
 
 
