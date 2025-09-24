@@ -282,7 +282,7 @@ Route::prefix('tabs')->middleware(['auth'])->group(function () {
     Route::get('/course-enrollment', [TabsController::class, 'courseEnrollment'])->name('tabs.courseEnrollment');
     Route::get('/activities', [TabsController::class, 'activities'])->name('tabs.activities');
     Route::get('/photos', [TabsController::class, 'photos'])->name('tabs.photos');
-Route::get('/students/{id}', [TabsController::class, 'showStudent'])->name('students.show');
+Route::get('/students/{id}', [TabsController::class, 'showStudent'])->name('tabs.student-show');
 
 
 });
