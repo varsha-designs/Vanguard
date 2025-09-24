@@ -46,6 +46,8 @@ public function activities()
 {
     return $this->hasMany(DailyActivity::class, 'student_id');
 }
-
+ public function activityImages() {
+    return $this->hasMany(ActivityImage::class);
+}
 
 }
