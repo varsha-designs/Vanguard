@@ -109,5 +109,25 @@ public function showStudent($id, Request $request)
     return view('tabs.student-show', compact('student', 'activities', 'section'));
 }
 
+public function idCard(Request $request)
+{
+    // Always fetch all students for the dropdown
+    $students = Student::all();
 
+    // Initialize $student as null
+    $student = null;
+
+    // If a student ID is passed, fetch that student
+    if ($request->has('id') && $request->id != '') {
+        $student = Student::find($request->id);
+
+        // Optional: handle case if student not found
+        if (!$student) {
+            return redirect()->route('tabs.id-card')->with('error', 'Student not found.');
+        }
+    }
+
+    // Pass both $students and $student to the view
+    return view('tabs.id-card', compact('students', 'student'));
+}
 }
