@@ -42,7 +42,7 @@ class DailyActivityController extends Controller
             'faculty_id'   => 'required|exists:faculties,id',
             'date'         => 'required|date',
             'in_time'      => 'required',
-           'out_time' => 'required|only after:'.$request->in_time,
+           'out_time' => 'required| after:'.$request->in_time,
            'out_time.after' => 'Out time must be later than In time.',
             'activities'   => 'required|array|min:1',
             'activities.*' => 'required|string',
