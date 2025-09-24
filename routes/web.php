@@ -286,5 +286,7 @@ Route::get('/students/{id}', [TabsController::class, 'showStudent'])->name('tabs
 
 
 });
+Route::get('/id-card', [TabsController::class, 'idCard'])->name('tabs.id-card');
+
 
 
