@@ -18,15 +18,18 @@ class FinancialController extends Controller
         // Total revenue = sum of all enrolled course fees
         $totalRevenue = $students->sum(fn($student) => $student->courses->sum('course_fee'));
 
-        // Costs
-        $teacherCostPerEnrollment = 100; // example
-        $marketingPerStudent = 500;       // example
-        $platformCost = 20000;            // fixed
+         $expenses = [
+    (object) ['name' => 'Rent for Classroom', 'amount' => 10000],
+    (object) ['name' => 'Staff Payment', 'amount' => 20000],
+    (object) ['name' => 'Electricity Bill', 'amount' => 3000],
+    (object) ['name' => 'Internet Bill', 'amount' => 1500],
+];
+$totalExpenses = 0;
+foreach ($expenses as $expense) {
+    $totalExpenses += $expense->amount; // add each expense amount
+}
 
-        $totalTeacherCost = $totalEnrollments * $teacherCostPerEnrollment;
-        $totalMarketing = count($students) * $marketingPerStudent;
 
-        $totalCosts = $totalTeacherCost + $totalMarketing + $platformCost;
 
 
 
@@ -36,7 +39,8 @@ class FinancialController extends Controller
             'students',
             'totalEnrollments',
             'totalRevenue',
-            'totalCosts',
+            'totalExpenses',
+            'expenses',
         ));
     }
 }
