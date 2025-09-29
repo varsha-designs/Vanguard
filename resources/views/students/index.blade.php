@@ -14,6 +14,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -21,13 +22,12 @@
                     <tr>
                         <td>{{ $student->id }}</td>
                         <td>{{ $student->full_name }}</td>
-                        <td >{{ $student->email }}<a href="{{ route('students.edit', $student->id) }}" class="btn btn-sm btn-primary ms-3 ml-4">
-                    Edit
-                </a>
-                <a href="{{ route('students.documents', $student->id) }}" class="btn btn-sm btn-primary ms-3 ml-4">
-                    Document
-                </a>
-            </td>
+                        <td >{{ $student->email }}</td>
+                     <td>
+                        <a href="{{ route('students.documents', $student->id) }}" class="btn btn-info btn-sm">Doc</a>
+                        <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning btn-sm" >Edit</a>
+                     </td>
+
                     </tr>
                 @empty
                     <tr>
