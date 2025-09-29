@@ -8,7 +8,7 @@
     <p><strong>Total Students:</strong> {{ count($students) }}</p>
     <p><strong>Total Course Enrollments:</strong> {{ $totalEnrollments }}</p>
     <p><strong>Total Revenue:</strong> ₹{{ number_format($totalRevenue, 2) }}</p>
-    <p><strong>Total Costs:</strong> ₹{{ number_format($totalCosts, 2) }}</p>
+    <p><strong>Total Expense:</strong> ₹{{ number_format($totalExpenses, 2) }}</p>
 
 
     <hr>
@@ -31,6 +31,25 @@
                         @endforeach
                     </td>
                     <td>₹{{ $student->courses->sum('course_fee') }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+      <hr>
+    <h4>Financial Expenses</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Expense Item</th>
+                <th>Amount (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($expenses as $expense)
+                <tr>
+                    <td>{{ $expense->name }}</td>
+                    <td>₹{{ number_format($expense->amount, 2) }}</td>
                 </tr>
             @endforeach
         </tbody>
