@@ -10,6 +10,9 @@ use Vanguard\Http\Controllers\FacultyController;
 use Vanguard\Http\Controllers\DailyActivityController;
 use Vanguard\Http\Controllers\FinancialController;
 use Vanguard\Http\Controllers\TabsController;
+use Vanguard\Http\Controllers\FacultyActivityController;
+use Vanguard\Http\Controllers\StudentScheduleController;
+use Vanguard\Http\Controllers\FacultyScheduleController;
 /**
  * Authentication
  */
@@ -288,5 +291,56 @@ Route::get('/students/{id}', [TabsController::class, 'showStudent'])->name('tabs
 });
 Route::get('/id-card', [TabsController::class, 'idCard'])->name('tabs.id-card');
 
+
+Route::prefix('faculty-activities')->name('faculty_activities.')->group(function () {
+    Route::get('/', [FacultyActivityController::class, 'index'])->name('index');
+    Route::get('/create', [FacultyActivityController::class, 'create'])->name('create');
+    Route::post('/', [FacultyActivityController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [FacultyActivityController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [FacultyActivityController::class, 'update'])->name('update');
+    Route::delete('/{id}', [FacultyActivityController::class, 'destroy'])->name('destroy');
+    Route::get('/{id}',[FacultyActivityController::class, 'show'])->name('show');
+
+});
+
+
+
+
+// Show all schedules
+Route::get('/schedules', [StudentScheduleController::class, 'index'])->name('schedules.index');
+
+// Show create form
+Route::get('/schedules/create', [StudentScheduleController::class, 'create'])->name('schedules.create');
+
+// Store new schedule
+Route::post('/schedules', [StudentScheduleController::class, 'store'])->name('schedules.store');
+
+// Show edit form
+Route::get('/schedules/{id}/edit', [StudentScheduleController::class, 'edit'])->name('schedules.edit');
+
+// Update existing schedule
+Route::put('/schedules/{id}', [StudentScheduleController::class, 'update'])->name('schedules.update');
+Route::delete('/schedules/{id}',[StudentScheduleController::class, 'destroy'])->name('schedules.destroy');
+
+
+
+
+// Display all schedules
+Route::get('/faculty_schedules', [FacultyScheduleController::class, 'index'])->name('faculty_schedules.index');
+
+// Show create form
+Route::get('/faculty_schedules/create', [FacultyScheduleController::class, 'create'])->name('faculty_schedules.create');
+
+// Store new schedule
+Route::post('/faculty_schedules', [FacultyScheduleController::class, 'store'])->name('faculty_schedules.store');
+
+// Show edit form
+Route::get('/faculty_schedules/{id}/edit', [FacultyScheduleController::class, 'edit'])->name('faculty_schedules.edit');
+
+// Update schedule
+Route::put('/faculty_schedules/{id}', [FacultyScheduleController::class, 'update'])->name('faculty_schedules.update');
+
+// Delete schedule
+Route::delete('/faculty_schedules/{id}', [FacultyScheduleController::class, 'destroy'])->name('faculty_schedules.destroy');
 
 
